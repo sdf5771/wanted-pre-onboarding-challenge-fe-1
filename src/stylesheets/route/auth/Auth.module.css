@@ -1,0 +1,74 @@
+.auth_root{
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+    background-color: #FF3CAC;
+    background-image: linear-gradient(225deg, #FF3CAC 0%, #784BA0 50%, #2B86C5 100%);
+
+}
+.auth_body{
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 800px;
+    height: 600px;
+    background-color: white;
+    border-radius: 26px;
+    box-shadow: inset 0px 0px 10px #666
+}
+.auth_title_container{
+    width: 50%;
+    height: 100%;
+}
+.auth_title_header{
+    margin-top: 30px;
+    padding: 0 30px;
+    width: calc(100% - 60px);
+    height: 30px;
+}
+.auth_title_header > span{
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: -0.9px;
+    color: #3a3a4a;
+}
+.auth_title_body{
+    position: relative;
+    padding: 0 20px;
+    width: calc(100% - 40px);
+    height: calc(100% - 60px);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+}
+.auth_title_body > span{
+    font-size: 1rem;
+    letter-spacing: -0.9px;
+    color: #3a3a4a;
+}
+.todo_img{
+    margin-top: 20px;
+    width: 337px;
+    height: 401px;
+    min-width: 337px;
+    min-height: 401px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 337px;
+    background-image: url('../../../images/todo_image.png');
+}
+.float_body{
+    position: absolute;
+    right: 20px;
+    bottom: 50px;
+}
+.authorization_container{
+    width: 50%;
+    height: 100%;
+}
