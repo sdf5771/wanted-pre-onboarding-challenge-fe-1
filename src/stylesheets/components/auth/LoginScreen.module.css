@@ -16,7 +16,26 @@
     color: #3a3a4a;
 }
 .login_screen_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     margin-top: 50px;
     padding: 0 20px;
     width: calc(100% - 40px);
+    gap: 40px;
+}
+.login_join_us_container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px;
+    width: calc(100% - 60px);
+    gap: 8px;
+}
+.login_join_us_container > span:nth-child(2){
+    color: #2691d9;
+    cursor: pointer;
+    font-weight: bold;
 }

@@ -1,0 +1,41 @@
+.join_us_screen_root{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+}
+.join_us_screen_header{
+    margin-top: 30px;
+    padding: 0 30px;
+    width: calc(100% - 60px);
+}
+.join_us_screen_header > span{
+    font-size: 1.4rem;
+    font-weight: bold;
+    letter-spacing: -0.9px;
+    color: #3a3a4a;
+}
+.join_us_screen_body{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 50px;
+    padding: 0 20px;
+    width: calc(100% - 40px);
+    gap: 40px;
+}
+.join_us_login_container{
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0 30px;
+    width: calc(100% - 60px);
+    gap: 8px;
+}
+.join_us_login_container > span:nth-child(2){
+    color: #2691d9;
+    cursor: pointer;
+    font-weight: bold;
+}

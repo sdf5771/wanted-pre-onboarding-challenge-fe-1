@@ -1,0 +1,25 @@
+.public_style_button_root{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    width: 280px;
+    height: 50px;
+    border-radius: 12px;
+    background-color: #1A120B;
+    cursor: pointer;
+}
+.public_style_button_img{
+    width: 30px;
+    height: 30px;
+    min-width: 30px;
+    min-height: 30px;
+}
+.public_style_span_div{
+    display: flex;
+}
+.public_style_span_div > span{
+    font-size: 1rem;
+    font-weight: 600;
+    color: #ffffff;
+}
