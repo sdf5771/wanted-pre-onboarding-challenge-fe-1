@@ -1,41 +1,45 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styles from '../../stylesheets/components/auth/SignUpScreen.module.css';
-import AuthInputComponent from "./AuthInputComponent";
+import AuthInputForwardedRefComponent from "./AuthInputComponent";
 import PublicStyleButton from "../public/PublicStyleButton";
 import { useSelector, useDispatch } from 'react-redux';
 
 function SignUpScreen(){
     const joinUsRootRef = useRef<HTMLDivElement>(null);
     const loginPageClickDispatch = useDispatch();
+    const emailAuthInputRef = useRef<HTMLInputElement>(null);
+    const passwordAuthInputRef = useRef<HTMLInputElement>(null);
 
     const SignUpFetch = async () => {
-        let signUpData = {
-            email: 'seobisback@gmail.com',
-            password: 'root1234',
+        if(emailAuthInputRef.current && passwordAuthInputRef.current){
+            let signUpData = {
+                email: emailAuthInputRef.current['value'],
+                password: passwordAuthInputRef.current['value'],
+            }
+            console.log('signUpData ', signUpData);
+            fetch('http://localhost:8080/users/create', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(signUpData),
+            }).then((response) => {
+                console.log('response ', response);
+                if(response.ok){
+                    return response.json();
+                }
+                throw new Error('Newwork response was not ok.');
+            }).then((data) => {
+                console.log('성공 ', data);
+                if(data.message === '계정이 성공적으로 생성되었습니다'){
+
+                } else {
+
+                }
+            }).catch((error) => {
+                console.error('실패 : ', error);
+            })
         }
-
-        fetch('http://localhost:8080/users/create', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(signUpData),
-        }).then((response) => {
-            console.log('response ', response);
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error('Newwork response was not ok.');
-        }).then((data) => {
-            console.log('성공 ', data);
-            if(data.message === '계정이 성공적으로 생성되었습니다'){
-
-            } else {
-
-            }
-        }).catch((error) => {
-            console.error('실패 : ', error);
-        })
     }
 
     const joinUsOnClick = async() => {
@@ -65,8 +69,8 @@ function SignUpScreen(){
             </div>
 
             <div className={styles.join_us_screen_body}>
-                <AuthInputComponent inputType='email' inputLabel='Email' />
-                <AuthInputComponent inputType='password' inputLabel='Password' />
+                <AuthInputForwardedRefComponent ref={emailAuthInputRef} inputType='email' inputLabel='Email' />
+                <AuthInputForwardedRefComponent ref={passwordAuthInputRef} inputType='password' inputLabel='Password' />
                 <div>
                     <PublicStyleButton buttonText='Sign Up' buttonImgSrc="" onClickEvent={joinUsOnClick} />
                 </div>
