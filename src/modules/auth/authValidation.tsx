@@ -64,8 +64,52 @@ export const setAuthToken = (token: string) => {
     }
 
     if(token){
-        let setLocalStorageResult = localStorage.setItem('token', token);
-
-        console.log('setLocalStorageResult ', setLocalStorageResult);
+        localStorage.setItem('token', token);
+        setAuthTokenResult.success = true;
     }
+
+    return setAuthTokenResult;
+}
+
+export const setUserInformation = (email: string) => {
+    let setUserInfoResult = {
+        success: false,
+    }
+
+    if(email){
+        localStorage.setItem('email', email);
+        setUserInfoResult.success = true;
+    }
+
+    return setUserInfoResult;
+}
+
+export const getUserInfomation = async () => {
+    let getUserInfoResult = {
+        success: false,
+        email: '',
+        token: '',
+    }
+    let emailResult = await localStorage.getItem('email');
+    let tokenResult = await localStorage.getItem('token');
+
+    if(emailResult && tokenResult){
+        getUserInfoResult.email = emailResult;
+        getUserInfoResult.token = tokenResult;
+        getUserInfoResult.success = true;
+    }
+
+    return getUserInfoResult;
+}
+
+export const removeAuthData = async() => {
+    let removeResult = {
+        success: false,
+    }
+
+    await localStorage.removeItem("email");
+    await localStorage.removeItem("token");
+
+    removeResult.success = true;
+    return removeResult
 }

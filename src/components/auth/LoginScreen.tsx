@@ -5,7 +5,7 @@ import PublicStyleButton from "../public/PublicStyleButton";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from '../../reducers/reducers';
 import PublicMessageBox from '../../components/public/PublicMessageBox';
-import {setAuthToken} from "../../modules/auth/authValidation";
+import {setAuthToken, setUserInformation} from "../../modules/auth/authValidation";
 
 function LoginScreen(){
     const loginRootRef = useRef<HTMLDivElement>(null);
@@ -42,19 +42,26 @@ function LoginScreen(){
             }).then((data) => {
                 console.log('성공 ', data);
                 if(data.message === '성공적으로 로그인 했습니다'){
-                    setAuthToken(data.token);
+                    let tokenSaveResult = setAuthToken(data.token);
+                    if(tokenSaveResult && tokenSaveResult.success){
+                        if(emailAuthInputRef && emailAuthInputRef.current){
+                            setUserInformation(emailAuthInputRef.current['value']);
 
-                    PublicMessageBox('로그인 되었습니다.');
+                            PublicMessageBox('로그인 되었습니다.');
 
-                    setTimeout(() => {
-                        window.location.href = '/';
-                    }, 400)
+                            setTimeout(() => {
+                                window.location.href = '/';
+                            }, 400)
+                        }
+                    } else {
+                        PublicMessageBox('오류가 발생하였습니다 다시 로그인을 시도해주세요.');
+                    }
                 } else {
                     PublicMessageBox('계정이 가입되어있는지 확인해주세요.');
                 }
             }).catch((error) => {
                 console.error('실패 : ', error);
-                PublicMessageBox('로그인을 하는데 서버와 통신에 문제가 생겼습니다 관리자에게 문의해주세요.');
+                PublicMessageBox('계정이 가입되어있는지 확인해주세요.');
             })
         }
     }
