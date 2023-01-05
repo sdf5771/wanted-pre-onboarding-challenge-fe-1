@@ -37,11 +37,3 @@
 .auth_input:valid~.auth_txt_area::before{
     background-color: #2691d9;
 }
-.error_container{
-    display: flex;
-    width: 100%;
-}
-.error_container > span{
-    font-size: 0.8rem;
-    color: red;
-}
