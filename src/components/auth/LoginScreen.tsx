@@ -4,18 +4,23 @@ import AuthInputComponent from '../../components/auth/AuthInputComponent';
 import PublicStyleButton from "../public/PublicStyleButton";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from '../../reducers/reducers';
+import PublicMessageBox from '../../components/public/PublicMessageBox';
 
 function LoginScreen(){
     const loginRootRef = useRef<HTMLDivElement>(null);
     let loginRootRefCurrent : unknown;
     const joinUsClickDispatch = useDispatch();
+    const inputEmailErrorState = useSelector((state: RootState) => state.authEmailInputErrorReducer);
+    const inputPasswordErrorState = useSelector((state: RootState) => state.authPasswordInputErrorReducer);
 
     useEffect(() => {
         loginRootRefCurrent = loginRootRef.current
     }, [])
 
     const loginFetch = async () => {
-        let loginData = {}
+        let loginData = {
+
+        }
 
         fetch('http://localhost:8080/users/login', {
             method: 'POST',
@@ -28,7 +33,7 @@ function LoginScreen(){
             if(response.ok){
                 return response.json();
             }
-            throw new Error('Newwork response was not ok.');
+            throw new Error('Network response was not ok.');
         }).then((data) => {
             console.log('성공 ', data);
             if(data.message === '성공적으로 로그인 했습니다'){
@@ -41,8 +46,18 @@ function LoginScreen(){
         })
     }
 
-    const loginBtnOnClickEvent = (event : React.MouseEvent<HTMLDivElement>) => {
-
+    const loginBtnOnClickEvent = async (event : React.MouseEvent<HTMLDivElement>) => {
+        if(inputEmailErrorState && inputPasswordErrorState){
+            if(inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
+                PublicMessageBox('아이디와 비밀번호를 입력해주세요.');
+            } else if(inputEmailErrorState['isError'] && !inputPasswordErrorState['isError']){
+                PublicMessageBox('아이디와 입력해주세요.');
+            } else if(!inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
+                PublicMessageBox('비밀번호를 입력해주세요.');
+            } else {
+                await loginFetch();
+            }
+        }
     }
 
     const joinUsBtnOnClickEvent = (event : React.MouseEvent) => {

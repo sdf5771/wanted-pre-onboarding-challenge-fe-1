@@ -3,12 +3,32 @@ import styles from '../../stylesheets/components/auth/SignUpScreen.module.css';
 import AuthInputForwardedRefComponent from "./AuthInputComponent";
 import PublicStyleButton from "../public/PublicStyleButton";
 import { useSelector, useDispatch } from 'react-redux';
+import {RootState} from "../../reducers/reducers";
+import PublicMessageBox from "../public/PublicMessageBox";
 
 function SignUpScreen(){
     const joinUsRootRef = useRef<HTMLDivElement>(null);
     const loginPageClickDispatch = useDispatch();
     const emailAuthInputRef = useRef<HTMLInputElement>(null);
     const passwordAuthInputRef = useRef<HTMLInputElement>(null);
+    const inputEmailErrorState = useSelector((state: RootState) => state.authEmailInputErrorReducer);
+    const inputPasswordErrorState = useSelector((state: RootState) => state.authPasswordInputErrorReducer);
+
+    const loginPageSwitchHandler = () => {
+        if(joinUsRootRef.current){
+            joinUsRootRef.current.animate({
+                opacity:['1', '0'],
+            },{
+                duration: 300,
+                easing: "ease",
+                iterations: 1,
+                fill: "both"
+            })
+        }
+        setTimeout( () => {
+            loginPageClickDispatch({type: 'login click'});
+        },300)
+    }
 
     const SignUpFetch = async () => {
         if(emailAuthInputRef.current && passwordAuthInputRef.current){
@@ -28,38 +48,40 @@ function SignUpScreen(){
                 if(response.ok){
                     return response.json();
                 }
-                throw new Error('Newwork response was not ok.');
+                throw new Error('Network response was not ok.');
             }).then((data) => {
                 console.log('성공 ', data);
                 if(data.message === '계정이 성공적으로 생성되었습니다'){
 
-                } else {
+                    loginPageSwitchHandler();
 
+                    PublicMessageBox('회원가입이 완료되었습니다.');
+                } else {
+                    PublicMessageBox('회원가입에 실패했습니다. 관리자에게 문의해주세요.');
                 }
             }).catch((error) => {
                 console.error('실패 : ', error);
+                PublicMessageBox('회원가입에 실패했습니다. 관리자에게 문의해주세요.');
             })
         }
     }
 
     const joinUsOnClick = async() => {
-        await SignUpFetch();
+        if(inputEmailErrorState && inputPasswordErrorState){
+            if(inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
+                PublicMessageBox('아이디와 비밀번호를 입력해주세요.');
+            } else if(inputEmailErrorState['isError'] && !inputPasswordErrorState['isError']){
+                PublicMessageBox('아이디와 입력해주세요.');
+            } else if(!inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
+                PublicMessageBox('비밀번호를 입력해주세요.');
+            } else {
+                await SignUpFetch();
+            }
+        }
     }
 
     const loginPageBtnOnClickEvent = () => {
-        if(joinUsRootRef.current){
-            joinUsRootRef.current.animate({
-                opacity:['1', '0'],
-            },{
-                duration: 300,
-                easing: "ease",
-                iterations: 1,
-                fill: "both"
-            })
-        }
-        setTimeout( () => {
-            loginPageClickDispatch({type: 'login click'});
-        },300)
+        loginPageSwitchHandler();
     }
 
     return(
