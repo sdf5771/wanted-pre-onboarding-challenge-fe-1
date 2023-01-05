@@ -3,6 +3,7 @@
     height: 600px;
     background-color: #eaeaea;
     border-radius: 12px;
+    box-shadow: inset 0px 0px 10px #666;
 }
 .todo_main_title_container{
     display: flex;
@@ -37,6 +38,9 @@
     height: 60px;
 }
 .todo_main_create_div{
+    display: flex;
+    justify-content:center;
+    align-items: center;
     width: 500px;
     height: 30px;
     border-radius: 12px;
@@ -44,7 +48,7 @@
 }
 .todo_main_create_div > input {
     padding: 0 10px;
-    width: calc(100% - 4px - 20px);
+    width: calc(100% - 1px - 20px);
     height: calc(100% - 2px);
     border: 0;
     outline: none;
