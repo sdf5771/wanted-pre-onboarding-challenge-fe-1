@@ -41,3 +41,19 @@ export const passwordInputValidation = (value: string) => {
 
     return validationResult
 }
+
+export const getAuthToken = () => {
+    let getAuthTokenResult = {
+        isToken: false,
+    }
+
+    let userAuthResult = localStorage.getItem('token');
+
+    if(userAuthResult){
+        getAuthTokenResult.isToken = true;
+    } else {
+        getAuthTokenResult.isToken = false;
+    }
+
+    return getAuthTokenResult;
+}
