@@ -5,11 +5,14 @@ import PublicStyleButton from "../public/PublicStyleButton";
 import { useSelector, useDispatch } from 'react-redux';
 import {RootState} from '../../reducers/reducers';
 import PublicMessageBox from '../../components/public/PublicMessageBox';
+import {setAuthToken} from "../../modules/auth/authValidation";
 
 function LoginScreen(){
     const loginRootRef = useRef<HTMLDivElement>(null);
     let loginRootRefCurrent : unknown;
     const joinUsClickDispatch = useDispatch();
+    const emailAuthInputRef = useRef<HTMLInputElement>(null);
+    const passwordAuthInputRef = useRef<HTMLInputElement>(null);
     const inputEmailErrorState = useSelector((state: RootState) => state.authEmailInputErrorReducer);
     const inputPasswordErrorState = useSelector((state: RootState) => state.authPasswordInputErrorReducer);
 
@@ -18,42 +21,52 @@ function LoginScreen(){
     }, [])
 
     const loginFetch = async () => {
-        let loginData = {
+        if(emailAuthInputRef.current && passwordAuthInputRef.current){
+            let loginData = {
+                email: emailAuthInputRef.current['value'],
+                password: passwordAuthInputRef.current['value'],
+            }
 
+            fetch('http://localhost:8080/users/login', {
+                method: 'POST',
+                headers: {
+                    'Content-type': 'application/json',
+                },
+                body: JSON.stringify(loginData),
+            }).then((response) => {
+                console.log('response ', response);
+                if(response.ok){
+                    return response.json();
+                }
+                throw new Error('Network response was not ok.');
+            }).then((data) => {
+                console.log('성공 ', data);
+                if(data.message === '성공적으로 로그인 했습니다'){
+                    setAuthToken(data.token);
+
+                    PublicMessageBox('로그인 되었습니다.');
+
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 400)
+                } else {
+                    PublicMessageBox('계정이 가입되어있는지 확인해주세요.');
+                }
+            }).catch((error) => {
+                console.error('실패 : ', error);
+                PublicMessageBox('로그인을 하는데 서버와 통신에 문제가 생겼습니다 관리자에게 문의해주세요.');
+            })
         }
-
-        fetch('http://localhost:8080/users/login', {
-            method: 'POST',
-            headers: {
-                'Content-type': 'application/json',
-            },
-            body: JSON.stringify(loginData),
-        }).then((response) => {
-            console.log('response ', response);
-            if(response.ok){
-                return response.json();
-            }
-            throw new Error('Network response was not ok.');
-        }).then((data) => {
-            console.log('성공 ', data);
-            if(data.message === '성공적으로 로그인 했습니다'){
-
-            } else {
-
-            }
-        }).catch((error) => {
-            console.error('실패 : ', error);
-        })
     }
 
     const loginBtnOnClickEvent = async (event : React.MouseEvent<HTMLDivElement>) => {
         if(inputEmailErrorState && inputPasswordErrorState){
             if(inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
-                PublicMessageBox('아이디와 비밀번호를 입력해주세요.');
+                PublicMessageBox('아이디와 비밀번호를 확인해주세요.');
             } else if(inputEmailErrorState['isError'] && !inputPasswordErrorState['isError']){
-                PublicMessageBox('아이디와 입력해주세요.');
+                PublicMessageBox('아이디와 확인해주세요.');
             } else if(!inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
-                PublicMessageBox('비밀번호를 입력해주세요.');
+                PublicMessageBox('비밀번호를 확인해주세요.');
             } else {
                 await loginFetch();
             }
@@ -84,8 +97,8 @@ function LoginScreen(){
             </div>
 
             <div className={styles.login_screen_body}>
-                <AuthInputComponent inputType='email' inputLabel='Email' />
-                <AuthInputComponent inputType='password' inputLabel='Password' />
+                <AuthInputComponent ref={emailAuthInputRef} inputType='email' inputLabel='Email' />
+                <AuthInputComponent ref={passwordAuthInputRef} inputType='password' inputLabel='Password' />
                 <div>
                     <PublicStyleButton buttonText='Login' buttonImgSrc="" onClickEvent={loginBtnOnClickEvent} />
                 </div>

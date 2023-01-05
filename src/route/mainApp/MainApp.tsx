@@ -11,9 +11,10 @@ function MainApp(){
         }
     }
 
-    useEffect(() => {
+    useEffect( () => {
         loginAuthCheck();
-    })
+    }, [])
+
     return (
         <div>
             <h1>MainApp</h1>

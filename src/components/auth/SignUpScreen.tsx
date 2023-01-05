@@ -52,16 +52,15 @@ function SignUpScreen(){
             }).then((data) => {
                 console.log('성공 ', data);
                 if(data.message === '계정이 성공적으로 생성되었습니다'){
-
                     loginPageSwitchHandler();
 
-                    PublicMessageBox('회원가입이 완료되었습니다.');
+                    PublicMessageBox('회원가입이 완료되었습니다 로그인 해주세요.');
                 } else {
-                    PublicMessageBox('회원가입에 실패했습니다. 관리자에게 문의해주세요.');
+                    PublicMessageBox('회원가입에 실패했습니다 관리자에게 문의해주세요.');
                 }
             }).catch((error) => {
                 console.error('실패 : ', error);
-                PublicMessageBox('회원가입에 실패했습니다. 관리자에게 문의해주세요.');
+                PublicMessageBox('회원가입에 실패했습니다 관리자에게 문의해주세요.');
             })
         }
     }
@@ -69,13 +68,15 @@ function SignUpScreen(){
     const joinUsOnClick = async() => {
         if(inputEmailErrorState && inputPasswordErrorState){
             if(inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
-                PublicMessageBox('아이디와 비밀번호를 입력해주세요.');
-            } else if(inputEmailErrorState['isError'] && !inputPasswordErrorState['isError']){
-                PublicMessageBox('아이디와 입력해주세요.');
-            } else if(!inputEmailErrorState['isError'] && inputPasswordErrorState['isError']){
-                PublicMessageBox('비밀번호를 입력해주세요.');
-            } else {
-                await SignUpFetch();
+                PublicMessageBox('아이디와 비밀번호를 확인해주세요.');
+            }  else {
+                if(inputEmailErrorState['isError']){
+                    PublicMessageBox('아이디와 확인해주세요.');
+                } else if(inputPasswordErrorState['isError']){
+                    PublicMessageBox('비밀번호를 확인해주세요.');
+                } else {
+                    await SignUpFetch();
+                }
             }
         }
     }

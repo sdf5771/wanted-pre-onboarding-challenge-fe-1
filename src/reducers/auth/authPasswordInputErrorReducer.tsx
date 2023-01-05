@@ -19,7 +19,7 @@ function authPasswordInputErrorReducer(currentState: currentStateType, action: a
             newState.isError = true;
             break;
         case 'passwordNotError':
-            newState.isError = true;
+            newState.isError = false;
             break;
     }
 

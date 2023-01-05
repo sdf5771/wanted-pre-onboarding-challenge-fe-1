@@ -57,3 +57,15 @@ export const getAuthToken = () => {
 
     return getAuthTokenResult;
 }
+
+export const setAuthToken = (token: string) => {
+    let setAuthTokenResult = {
+        success: false,
+    }
+
+    if(token){
+        let setLocalStorageResult = localStorage.setItem('token', token);
+
+        console.log('setLocalStorageResult ', setLocalStorageResult);
+    }
+}
