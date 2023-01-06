@@ -27,8 +27,10 @@
     padding: 0 30px;
     width: calc(100% - 60px);
     height: calc(100% - 40px - 60px);
-    overflow-x: hidden;
-    overflow-y: auto;
+    overflow: auto;
+    /*overflow-x: hidden;*/
+    /*overflow-y: auto;*/
+    gap: 8px;
 }
 .todo_main_create_container{
     display: flex;

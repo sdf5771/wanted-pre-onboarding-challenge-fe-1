@@ -6,27 +6,27 @@ type TodoElementType = {
     content: string,
     id: string,
     createdAt: Date,
-    updateAt: Date,
+    updatedAt: Date,
 }
-//{title, content, id, createdAt, updateAt} : TodoElementType
-function TodoElement(){
+
+function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementType){
     return(
         <div className={styles.todo_element_root}>
             <div className={styles.todo_element_title}>
-
+                <div className={styles.todo_star_img}></div>
             </div>
             <div className={styles.todo_element_body}>
                 <div className={styles.todo_element_content_container}>
-                    <span>할 일 내용</span>
+                    <span>{content}</span>
                 </div>
                 <div className={styles.todo_element_date_container}>
-                    <span>생성일 : </span>
-                    <span>수정일 : </span>
+                    <span>{'생성일 : ' + new Date(createdAt).toLocaleString()}</span>
+                    <span>{'수정일 : ' + new Date(updatedAt).toLocaleString()}</span>
                 </div>
             </div>
             <div className={styles.todo_btn_container}>
-                <div></div>
-                <div></div>
+                <div className={styles.edit_btn}></div>
+                <div className={styles.remove_btn}></div>
             </div>
         </div>
     );

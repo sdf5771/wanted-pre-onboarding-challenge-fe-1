@@ -48,6 +48,7 @@ function SignUpScreen(){
                 if(response.ok){
                     return response.json();
                 }
+                PublicMessageBox('이미 존재하는 계정입니다.');
                 throw new Error('Network response was not ok.');
             }).then((data) => {
                 console.log('성공 ', data);
@@ -60,7 +61,6 @@ function SignUpScreen(){
                 }
             }).catch((error) => {
                 console.error('실패 : ', error);
-                PublicMessageBox('회원가입에 실패했습니다 관리자에게 문의해주세요.');
             })
         }
     }

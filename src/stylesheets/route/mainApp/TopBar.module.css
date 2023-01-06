@@ -7,6 +7,7 @@
     height: 60px;
 }
 .top_bar_title_container{
+    /*padding: 0 20px;*/
     display: flex;
     justify-content: center;
     align-items: center;
@@ -17,7 +18,7 @@
     font-family: helvetica, arial;
     font-size: 1.6rem;
     font-weight: bold;
-    color: #eaeaea;
+    color: #00ADB5;
 }
 .top_bar_userinfo_container{
     display: flex;
@@ -27,16 +28,19 @@
     gap: 8px;
 }
 .top_bar_user{
+    padding: 0 20px;
     width: fit-content;
     height: 30px;
     display: flex;
     justify-content: center;
     align-items: center;
+    background-color: #eaeaea;
+    border-radius: 8px;
 }
 .top_bar_user > span{
     font-family: helvetica, arial;
     font-size: 1rem;
-    color: #eaeaea;
+    color: #00ADB5;
 }
 
 .logout_btn{
@@ -48,11 +52,12 @@
     cursor: pointer;
     background-color: #eaeaea;
     border-radius: 8px;
-    transition: background-color 0.4s ease;
+    transition: all 0.6s ease;
 }
 .logout_btn:hover{
-    background-color: #EAE0DA;
+    background-color: #00ADB5;
 }
+.logout_btn:hover > span{color: #eaeaea;}
 .logout_btn > span {
     font-family: helvetica, arial;
     color: #00ADB5;

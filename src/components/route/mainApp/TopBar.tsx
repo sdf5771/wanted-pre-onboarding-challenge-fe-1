@@ -4,12 +4,17 @@ import {getUserInfomation, removeAuthData} from "../../../modules/auth/authValid
 import PublicMessageBox from "../../public/PublicMessageBox";
 
 function TopBar(){
+    const [email, setEmail] = useState('');
+    const setEmailTopBar = async () => {
+        let userResult = await getUserInfomation();
 
-    // let userResult = getUserInfomation();
-
-    // if(userResult && userResult.success){
-    //     setUserEmail(userResult['email']);
-    // }
+        if(userResult && userResult.success){
+            setEmail(userResult['email']);
+        }
+    }
+    useEffect(() => {
+        setEmailTopBar();
+    },[])
 
     const onLogOutClickHandler = async (event: React.MouseEvent<HTMLDivElement>) => {
         let removeResult = await removeAuthData();
@@ -23,15 +28,19 @@ function TopBar(){
         }
     }
 
+    const todoAppTitleOnClickHandler = (event: React.MouseEvent) => {
+        window.location.href = '/';
+    }
+
     return (
         <div className={styles.top_bar_root}>
-            <div className={styles.top_bar_title_container}>
+            <div onClick={todoAppTitleOnClickHandler} className={styles.top_bar_title_container}>
                 <span>Todo App</span>
             </div>
 
             <div className={styles.top_bar_userinfo_container}>
                 <div className={styles.top_bar_user}>
-                    <span> 님 오늘은 무엇을 할까요? </span>
+                    <span>{email + ' 님 오늘은 무엇을 할까요?'} </span>
                 </div>
                 <div className={styles.logout_btn} onClick={onLogOutClickHandler}>
                     <span>LogOut</span>
