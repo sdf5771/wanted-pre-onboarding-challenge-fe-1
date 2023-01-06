@@ -1,0 +1,107 @@
+.todo_detail_view_background{
+    z-index: 20;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background-color: black;
+    opacity: 0.5;
+}
+.todo_detail_view_root{
+    z-index: 21;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 400px;
+    height: 500px;
+    background-color: #eaeaea;
+    border-radius: 8px;
+}
+.todo_detail_view_header{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    width: calc(100% - 40px);
+    height: 40px;
+}
+.todo_img_div{
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 15px;
+    background-image: url('../../../images/todo_image.png');
+}
+.todo_detail_view_title{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.todo_detail_view_title > span{
+    font-family: helvetica, arial;
+    font-size: 1.2rem;
+    font-weight: bold;
+    color: #00ADB5;
+}
+.close_img{
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    min-height: 20px;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: 13px;
+    background-image: url('../../../images/cross.png');
+    cursor: pointer;
+}
+.todo_detail_view_body{
+    padding: 0 30px;
+    width: calc(100% - 60px);
+    height: calc(100% - 40px);
+}
+.todo_content_title{
+    margin-top: 20px;
+}
+.todo_content_title > span {
+    font-family: helvetica, arial;
+    font-size: 1rem;
+    font-weight: bold;
+    color: #00ADB5;
+}
+.todo_content_creator{
+    margin-top: 10px;
+}
+.todo_content_creator > span{
+    font-family: helvetica, arial;
+    font-size: 0.5rem;
+    color: #00ADB5;
+}
+.todo_content_content{
+    margin-top: 10px;
+}
+.todo_content_content > span{
+    font-family: helvetica, arial;
+    font-size: 0.8rem;
+    color: #00ADB5;
+}
+.todo_content_createdAt{
+    margin-top: 10px;
+}
+.todo_content_createdAt > span{
+    font-family: helvetica, arial;
+    font-size: 0.6rem;
+    color: #00ADB5;
+}
+.todo_content_updatedAt{
+    margin-top: 10px;
+}
+.todo_content_updatedAt > span{
+    font-family: helvetica, arial;
+    font-size: 0.6rem;
+    color: #00ADB5;
+}
