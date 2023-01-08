@@ -1,46 +1,27 @@
-# Getting Started with Create React App
+## 안녕하세요 🖐️
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## 지속적인 발전을 서비스 프론트 엔드 개발자가 되고 싶은 김섭우 입니다.
 
-## Available Scripts
+2년 차 연구개발 및 소프트웨어 엔지니어로 국내 해외 대형 제약회사의 벤더 사 엔지니어로 ‘주식회사 M2ISOFT’에서 커리어를 시작하였으며, 타 파트너 사와 협업을 통해 제약회사 GMP 공정의 자동화 및 CSV(Computer System Validation) 및 유지 보수 업무를 담당하였습니다. ‘Heaventree’ 사에서 Full-stack 개발 형태로 R&D 연구소 소속 솔루션 개발팀에서 PPM Tool (Project Portpolio Management) ‘Clovine’ 개발을 담당하고 있습니다.
 
-In the project directory, you can run:
+해당 프로젝트는 원티드 온보딩 프론트 엔드 2023.01 챌린지 사전 과제를 위해 제작하였으며,
 
-### `npm start`
+Front-end : React JS, TypeScript
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+State Management : redux
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+로 구현하였습니다.
 
-### `npm test`
+전반적으로 기존 명세에 따라 구현하였지만, 할 일의 title 값을 사용하지 않고, content 값만을 사용하여
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+좀 더 할 일의 내용을 쉽게 추가하고, 쉽게 수정할 수 있게 사용할 수 있기를 바라며 제 임의로 해당하는 사항만 변경하는 방식으로 구현하였습니다.
 
-### `npm run build`
+감사합니다.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+- Email : seobisback@gmail.com
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+- Notion Portpolio : [Developer Seobwoo Kim Portpolio](https://tender-lemongrass-345.notion.site/Developer-Seobwoo-Kim-Portpolio-a2d2e2fb6c6e4a4b9de09c47e99f3010)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+- Github Link : [sdf5771 - Overview](https://github.com/sdf5771)
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+- Github Tech Blog : [Seobisback Github Blog](https://sdf5771.github.io/)
