@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useRef} from 'react';
 import styles from '../../stylesheets/route/todo/TodoElement.module.css'
 import {getUserInfomation} from "../../modules/auth/authValidation";
 import PublicMessageBox from "../public/PublicMessageBox";
@@ -19,6 +19,8 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
     const [idState, setIdState] = useState(id);
     const [createdAtState, setCreatedAtState] = useState(createdAt);
     const [updatedAtState, setUpdatedAtState] = useState(updatedAt);
+
+    const todoElementRef = useRef<HTMLDivElement>(null);
 
     const todoDetailDataRequest = async () => {
         let userInfo = await getUserInfomation();
@@ -134,12 +136,16 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         let userConfirm : boolean = window.confirm("정말 해당 할 일을 삭제하시겠어요?");
 
         if(userConfirm){
+            if(todoElementRef && todoElementRef.current){
+                console.log('todoElementRef ', todoElementRef);
+                todoElementRef.current.remove();
+            }
             todoDeleteRequest();
         }
     }
 
     return(
-        <div onClick={todoElementOnClickHandler} className={styles.todo_element_root}>
+        <div ref={todoElementRef} onClick={todoElementOnClickHandler} className={styles.todo_element_root}>
             <div className={styles.todo_element_title}>
                 <div className={styles.todo_star_img}></div>
             </div>
