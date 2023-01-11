@@ -84,31 +84,33 @@ export const setUserInformation = (email: string) => {
     return setUserInfoResult;
 }
 
-export const getUserInfomation = async () => {
-    let getUserInfoResult = {
+export const getUserInformation = () => {
+    const email = localStorage.getItem('email');
+    const token = localStorage.getItem('token');
+
+    const conditions = [email, token]
+
+    if(conditions.every(condition => !!condition)){
+        return {
+            success: true,
+            email,
+            token,
+        }
+    }
+    return {
         success: false,
         email: '',
         token: '',
     }
-    let emailResult = await localStorage.getItem('email');
-    let tokenResult = await localStorage.getItem('token');
-
-    if(emailResult && tokenResult){
-        getUserInfoResult.email = emailResult;
-        getUserInfoResult.token = tokenResult;
-        getUserInfoResult.success = true;
-    }
-
-    return getUserInfoResult;
 }
 
-export const removeAuthData = async() => {
+export const removeAuthData = () => {
     let removeResult = {
         success: false,
     }
 
-    await localStorage.removeItem("email");
-    await localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("token");
 
     removeResult.success = true;
     return removeResult

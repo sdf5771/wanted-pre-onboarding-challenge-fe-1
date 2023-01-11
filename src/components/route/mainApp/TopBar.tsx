@@ -1,23 +1,23 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../../../stylesheets/route/mainApp/TopBar.module.css';
-import {getUserInfomation, removeAuthData} from "../../../modules/auth/authValidation";
+import {getUserInformation, removeAuthData} from "../../../modules/auth/authValidation";
 import PublicMessageBox from "../../public/PublicMessageBox";
 
 function TopBar(){
     const [email, setEmail] = useState('');
-    const setEmailTopBar = async () => {
-        let userResult = await getUserInfomation();
+    const setEmailTopBar = () => {
+        let userResult = getUserInformation();
 
         if(userResult && userResult.success){
-            setEmail(userResult['email']);
+            setEmail(userResult['email'] as string);
         }
     }
     useEffect(() => {
         setEmailTopBar();
     },[])
 
-    const onLogOutClickHandler = async (event: React.MouseEvent<HTMLDivElement>) => {
-        let removeResult = await removeAuthData();
+    const onLogOutClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
+        let removeResult = removeAuthData();
 
         if(removeResult && removeResult.success){
             PublicMessageBox('로그아웃이 완료되었습니다.');

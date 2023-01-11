@@ -1,6 +1,6 @@
 import React, {useState, useEffect, useRef} from 'react';
 import styles from '../../stylesheets/route/todo/TodoElement.module.css'
-import {getUserInfomation} from "../../modules/auth/authValidation";
+import {getUserInformation} from "../../modules/auth/authValidation";
 import PublicMessageBox from "../public/PublicMessageBox";
 import {useDispatch} from "react-redux";
 
@@ -22,15 +22,15 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
 
     const todoElementRef = useRef<HTMLDivElement>(null);
 
-    const todoDetailDataRequest = async () => {
-        let userInfo = await getUserInfomation();
+    const todoDetailDataRequest = () => {
+        let userInfo = getUserInformation();
         let todoId = idState;
         if(userInfo){
             fetch(`http://localhost:8080/todos/${todoId}`, {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': userInfo['token'],
+                    'Authorization': userInfo['token'] as string,
                 },
             }).then((response) => {
                 console.log('response ', response);
@@ -60,8 +60,8 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         await todoDetailDataRequest();
     }
 
-    const todoEditRequest = async (updateContent: string) => {
-        let userInfo = await getUserInfomation();
+    const todoEditRequest = (updateContent: string) => {
+        let userInfo = getUserInformation();
         let todoId = idState;
         if(userInfo){
             let editData = {
@@ -72,7 +72,7 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
                 method: 'PUT',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': userInfo['token'],
+                    'Authorization': userInfo['token'] as string,
                 },
                 body: JSON.stringify(editData),
             }).then((response) => {
@@ -105,15 +105,15 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         }
     }
 
-    const todoDeleteRequest = async () => {
-        let userInfo = await getUserInfomation();
+    const todoDeleteRequest = () => {
+        let userInfo = getUserInformation();
         let todoId = idState;
         if(userInfo){
             fetch(`http://localhost:8080/todos/${todoId}`, {
                 method: 'DELETE',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': userInfo['token'],
+                    'Authorization': userInfo['token'] as string,
                 },
             }).then((response) => {
                 console.log('response ', response);

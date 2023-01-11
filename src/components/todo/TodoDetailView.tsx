@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../../stylesheets/route/todo/TodoDetailView.module.css';
 import {useDispatch} from "react-redux";
-import {getUserInfomation} from "../../modules/auth/authValidation";
+import {getUserInformation} from "../../modules/auth/authValidation";
 
 type TodoDetailViewType = {
     title: string,
@@ -18,11 +18,11 @@ function TodoDetailView ({title, content, id, createdAt, updatedAt} : TodoDetail
         todoDetailViewClickReducerDispatch({type: 'TodoDetailView Close'});
     }
 
-    const getUserInfo = async () => {
-        let userInfo = await getUserInfomation();
+    const getUserInfo = () => {
+        let userInfo = getUserInformation();
 
         if(userInfo){
-            setUser(userInfo['email']);
+            setUser(userInfo['email'] as string);
         }
     }
 

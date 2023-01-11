@@ -1,7 +1,7 @@
 import React, {useState, useEffect} from 'react';
 import styles from '../../../stylesheets/route/mainApp/TodoApp.module.css';
 import TodoElement from "../../todo/TodoElement";
-import {getUserInfomation, setAuthToken, setUserInformation} from "../../../modules/auth/authValidation";
+import {getUserInformation, setAuthToken, setUserInformation} from "../../../modules/auth/authValidation";
 import PublicMessageBox from "../../public/PublicMessageBox";
 
 type todoDataType = {
@@ -17,14 +17,14 @@ function TodoApp(){
     const [todos, setTodos] = useState<todoDataType[]>([]);
     const [isLoading, setIsLoading] = useState(false);
 
-    const getTodoList = async() => {
-        let userInfo = await getUserInfomation();
+    const getTodoList = () => {
+        let userInfo = getUserInformation();
         if(userInfo){
             fetch('http://localhost:8080/todos', {
                 method: 'GET',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': userInfo['token'],
+                    'Authorization': userInfo['token'] as string,
                 },
             }).then((response) => {
                 console.log('response ', response);
@@ -58,8 +58,8 @@ function TodoApp(){
         return newTodoData
     }
 
-    const createTodo = async () => {
-        let userInfo = await getUserInfomation();
+    const createTodo = () => {
+        let userInfo = getUserInformation();
 
         if(userInfo){
             let todoData = {
@@ -70,7 +70,7 @@ function TodoApp(){
                 method: 'POST',
                 headers: {
                     'Content-type': 'application/json',
-                    'Authorization': userInfo['token'],
+                    'Authorization': userInfo['token'] as string,
                 },
                 body: JSON.stringify(todoData),
             }).then((response) => {
