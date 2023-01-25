@@ -3,9 +3,10 @@ import styles from '../../stylesheets/route/todo/TodoElement.module.css'
 import {getUserInformation} from "../../modules/auth/authValidation";
 import PublicMessageBox from "../public/PublicMessageBox";
 import {useDispatch} from "react-redux";
-import {useMutation} from "react-query";
+import { useQuery,useMutation } from "react-query";
 import {updateTodo} from "../../queries/todo/UpdateTodo";
 import {deleteTodo} from "../../queries/todo/DeleteTodo";
+import {getDetailTodoData} from "../../queries/todo/GetDetailTodoData";
 
 type TodoElementType = {
     title: string,
@@ -19,50 +20,27 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
     const todoDetailViewClickReducerDispatch = useDispatch();
     const { data: updateTodoData, isLoading: updateTodoIsLoading, mutate: updateTodoMutate } = useMutation(updateTodo);
     const { data: deleteTodoData, isLoading: deleteTodoIsLoading, mutate: deleteTodoMutate } = useMutation(deleteTodo);
-    const [titleState, setTitleState] = useState(title);
+    const {isLoading: detailTodoIsLoading, error: detailTodoError, data: detailTodoData} = useQuery('getDetailTodo', () => getDetailTodoData(id));
     const [contentState, setContentState] = useState(content);
-    const [idState, setIdState] = useState(id);
-    const [createdAtState, setCreatedAtState] = useState(createdAt);
     const [updatedAtState, setUpdatedAtState] = useState(updatedAt);
 
     const todoElementRef = useRef<HTMLDivElement>(null);
 
-    const todoDetailDataRequest = () => {
-        let userInfo = getUserInformation();
-        let todoId = idState;
-        if(userInfo){
-            fetch(`http://localhost:8080/todos/${todoId}`, {
-                method: 'GET',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': userInfo['token'] as string,
-                },
-            }).then((response) => {
-                console.log('response ', response);
-                if(response.ok){
-                    return response.json();
-                }
-                throw new Error('Network response was not ok.');
-            }).then((data) => {
-                console.log('성공 ', data);
-                if(data){
-                    todoDetailViewClickReducerDispatch(
-                        {type: 'TodoDetailView Open',
-                            todoData: {title: titleState,
-                                content: contentState,
-                                id: idState,
-                                createdAt: createdAtState,
-                                updatedAt: updatedAtState}})
-                }
-            }).catch((error) => {
-                console.error('실패 : ', error);
-                PublicMessageBox('할 일을 불러오지 못했어요.');
-            })
-        }
-    }
-
     const todoElementOnClickHandler = async (event: React.MouseEvent<HTMLDivElement>) => {
-        await todoDetailDataRequest();
+        if(detailTodoError){
+            console.error('실패 : ', detailTodoError);
+            PublicMessageBox('할 일을 불러오지 못했어요.');
+        } else {
+            if(detailTodoData && detailTodoData.data){
+                todoDetailViewClickReducerDispatch(
+                    {type: 'TodoDetailView Open',
+                        todoData: {title: detailTodoData.data.title,
+                            content: detailTodoData.data.content,
+                            id: detailTodoData.data.id,
+                            createdAt: detailTodoData.data.createdAt,
+                            updatedAt: detailTodoData.data.updatedAt}})
+            }
+        }
     }
 
     const todoEditBtnOnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
@@ -99,7 +77,7 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         let userConfirm : boolean = window.confirm("정말 해당 할 일을 삭제하시겠어요?");
 
         if(userConfirm){
-            deleteTodoMutate(idState, {
+            deleteTodoMutate(id, {
                 onSuccess: (data) => {
                     console.log('성공 : ', data);
                 },
@@ -121,7 +99,7 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
                     <span>{contentState}</span>
                 </div>
                 <div className={styles.todo_element_date_container}>
-                    <span>{'생성일 : ' + new Date(createdAtState).toLocaleString()}</span>
+                    <span>{'생성일 : ' + new Date(createdAt).toLocaleString()}</span>
                     <span>{'수정일 : ' + new Date(updatedAtState).toLocaleString()}</span>
                 </div>
             </div>
