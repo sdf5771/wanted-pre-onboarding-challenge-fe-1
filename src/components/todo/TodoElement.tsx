@@ -3,6 +3,8 @@ import styles from '../../stylesheets/route/todo/TodoElement.module.css'
 import {getUserInformation} from "../../modules/auth/authValidation";
 import PublicMessageBox from "../public/PublicMessageBox";
 import {useDispatch} from "react-redux";
+import {useMutation} from "react-query";
+import {updateTodo} from "../../queries/todo/UpdateTodo";
 
 type TodoElementType = {
     title: string,
@@ -14,6 +16,7 @@ type TodoElementType = {
 
 function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementType){
     const todoDetailViewClickReducerDispatch = useDispatch();
+    const { data: updateTodoData, isLoading: updateTodoIsLoading, mutate: updateTodoMutate, mutateAsync } = useMutation(updateTodo);
     const [titleState, setTitleState] = useState(title);
     const [contentState, setContentState] = useState(content);
     const [idState, setIdState] = useState(id);
@@ -60,37 +63,6 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         await todoDetailDataRequest();
     }
 
-    const todoEditRequest = (updateContent: string) => {
-        let userInfo = getUserInformation();
-        let todoId = idState;
-        if(userInfo){
-            let editData = {
-                title: 'no title',
-                content: updateContent,
-            }
-            fetch(`http://localhost:8080/todos/${todoId}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-type': 'application/json',
-                    'Authorization': userInfo['token'] as string,
-                },
-                body: JSON.stringify(editData),
-            }).then((response) => {
-                console.log('response ', response);
-                if(response.ok){
-                    return response.json();
-                }
-                throw new Error('Network response was not ok.');
-            }).then((data) => {
-                setContentState(data['data']['content']);
-                setUpdatedAtState(data['data']['updatedAt']);
-            }).catch((error) => {
-                console.error('실패 : ', error);
-                PublicMessageBox('할 일을 수정하지 못했어요.');
-            })
-        }
-    }
-
     const todoEditBtnOnClickHandler = (event: React.MouseEvent<HTMLDivElement>) => {
         event.preventDefault();
         event.stopPropagation();
@@ -98,7 +70,21 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         console.log('userInput ', userInput);
         if(userInput){
             if(userInput !== contentState){
-                todoEditRequest(userInput);
+                let editData = {
+                    title: 'no title',
+                    content: userInput,
+                    todoId: id,
+                }
+                updateTodoMutate(editData,{
+                    onSuccess: (data) => {
+                        setContentState(data['data']['content']);
+                        setUpdatedAtState(data['data']['updatedAt']);
+                    },
+                    onError: (data) => {
+                        console.error('실패 : ', data);
+                        PublicMessageBox('할 일을 수정하지 못했어요.');
+                    }
+                });
             } else {
                 PublicMessageBox('수정할 할 일의 내용은 전과 동일할 수 없습니다.');
             }
