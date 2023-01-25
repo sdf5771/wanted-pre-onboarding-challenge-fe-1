@@ -1,4 +1,5 @@
 import React, {useEffect, useState} from 'react';
+import { Navigate } from 'react-router-dom';
 import styles from '../../../stylesheets/route/mainApp/TopBar.module.css';
 import {getUserInformation, removeAuthData} from "../../../modules/auth/authValidation";
 import PublicMessageBox from "../../public/PublicMessageBox";
@@ -23,7 +24,7 @@ function TopBar(){
             PublicMessageBox('로그아웃이 완료되었습니다.');
 
             setTimeout(() => {
-                window.location.href = '/';
+                window.location.replace('/');
             }, 300)
         }
     }

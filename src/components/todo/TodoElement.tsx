@@ -136,10 +136,6 @@ function TodoElement({title, content, id, createdAt, updatedAt} : TodoElementTyp
         let userConfirm : boolean = window.confirm("정말 해당 할 일을 삭제하시겠어요?");
 
         if(userConfirm){
-            if(todoElementRef && todoElementRef.current){
-                console.log('todoElementRef ', todoElementRef);
-                todoElementRef.current.remove();
-            }
             todoDeleteRequest();
         }
     }
